@@ -143,12 +143,12 @@ document.querySelectorAll(".proj-row").forEach((card) => {
 // ---------- Project stack (rendered from this array) ----------
 const projects = [
   {
-    name: "GEOPORT MALAYBALAY (CAPSTONE)",
+    name: "GEOPORT MALAYBALAY (Capstone Project)",
     year: "2023 – 2025",
     category: "MAJOR PROJECT",
     desc: "Geoport Malaybalay is a community-driven mobile application that enables citizens to report highway and infrastructure issues, including vehicular accidents, in real time. By simply taking a picture, the app automatically geotags the reporter's location using AI-powered image processing. It also provides dynamic rerouting suggestions, helping drivers avoid hazards, improving road safety, and enabling faster response from local authorities.",
     buttons: [
-      { label: "Project Web", href: "https://dookiemercado.github.io/GeoportWeb/" },
+      { label: "Project Web", href: "https://davydsgn-dev.github.io/GeoportWeb/" },
     ],
   },
   {
@@ -161,7 +161,7 @@ const projects = [
     ],
   },
   {
-    name: "VIPTutors Website (Redesign)",
+    name: "VIPTUTORS WEBSITE (Redesign)",
     year: "2026",
     category: "SIDE PROJECTS",
     desc: "A UI/UX redesign concept created as part of the VIPTutors application process. The project focused on improving the website's visual hierarchy, user experience, accessibility, and overall usability while maintaining the brand's identity. The redesign includes a more intuitive layout, refined interface components, and a modern design system to enhance the user journey.",
