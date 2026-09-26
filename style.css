@@ -746,6 +746,7 @@ html, body {
   background: #000;
   border: 1.5px solid rgba(120, 152, 29, 0.35);   /* ← changed */  /* lime border is now default */
   padding: 22px;
+  border-radius: 0px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
