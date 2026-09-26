@@ -323,3 +323,9 @@ if (strategySection) {
   window.addEventListener("resize", updateStrategyReveal);
   updateStrategyReveal();
 }
+document.querySelector('.btn[href="#intro"]').addEventListener('click', function (e) {
+  e.preventDefault();
+  const el = document.getElementById('intro');
+  if (!el) { alert('intro section not found'); return; }
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
