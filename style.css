@@ -210,6 +210,54 @@ html, body {
   object-fit: contain;     /* safety */
 }
 
+@media (max-width: 860px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero__left,
+  .hero__right {
+    width: 100%;
+  }
+
+  .hero__left {
+    padding: 32px 24px;
+    min-height: auto;                /* let it size to content on mobile */
+  }
+
+  .hero__content {
+    margin: 32px 0;                  /* breathing room around the middle block */
+  }
+
+  .hero__heading {
+    font-size: clamp(28px, 8vw, 40px); /* scales with viewport so it never wraps awkwardly */
+  }
+
+  .hero__right {
+    min-height: 380px;               /* gives the photo panel real height */
+    padding: 24px 24px 0;            /* remove the top padding, keep side/bottom */
+    align-items: flex-end;
+  }
+
+  /* The key fix: photo no longer overflows on mobile */
+  .photo {
+    width: 100%;                     /* was 120% — fits the viewport now */
+    max-width: 100%;                 /* was 480px — cap removed */
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+}
+
 /* ================================================
    Intro row — 3 columns: intro / experience / dev
    ================================================ */
