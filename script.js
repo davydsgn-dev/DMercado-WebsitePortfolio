@@ -329,3 +329,4 @@ document.querySelector('.btn[href="#intro"]').addEventListener('click', function
   if (!el) { alert('intro section not found'); return; }
   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
+

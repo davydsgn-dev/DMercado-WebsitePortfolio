@@ -559,7 +559,7 @@ html, body {
 }
 
 .stack-list {
-  padding: 0 0 7vh;
+  padding: 0;
 }
 
 /* Each row pins as you scroll; the next one slides over it. */
@@ -569,16 +569,15 @@ html, body {
   z-index: calc(var(--i) + 1);
   background: var(--bg-dark);
   padding: 48px 0;
- border-top: 1px solid rgba(120, 152, 29, 0.35);
+  border-top: 1px solid rgba(120, 152, 29, 0.35);
 }
 
 .proj-row-inner {
   display: block;
-  max-width: 620px;      /* keeps the text from stretching edge to edge */
-  margin-left: auto;     /* ← pushes the block to the right */
+  max-width: 620px;
+  margin-left: auto;
 }
 
-/* Meta row — category + year side by side */
 .proj-meta {
   display: flex;
   align-items: center;
@@ -631,7 +630,6 @@ html, body {
   line-height: 1.6;
 }
 
-/* Buttons row */
 .proj-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -662,11 +660,19 @@ html, body {
   .projects {
     padding-left: 32px;
     padding-right: 32px;
+    padding-bottom: 0;
   }
 
-  .stack-list { padding-bottom: 40vh; }
+  .stack-list { padding-bottom: 0; }
 
-  .proj-row { top: calc(48px + var(--i) * 10px); }
+  .proj-row {
+    top: calc(48px + var(--i) * 10px);
+    padding: 20px 0 8px;
+  }
+
+  .proj-buttons {
+    margin-top: 14px;
+  }
 }
 
 /* ---------- Tech carousel ---------- */
