@@ -625,11 +625,28 @@ html, body {
 /* Each row pins as you scroll; the next one slides over it. */
 .proj-row {
   position: sticky;
-  top: calc(80px + var(--i) * 16px);
+  /* Increased offset from 16px to 32px so the line isn't covered */
+  top: calc(80px + var(--i) * 32px);
   z-index: calc(var(--i) + 1);
   background: var(--bg-dark);
   padding: 48px 0;
-  border-top: 1px solid rgba(120, 152, 29, 0.35);
+  /* Removed the straight border-top */
+}
+
+/* New Step-Down Line Effect */
+.proj-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 24' preserveAspectRatio='none'%3E%3Cpath d='M 0 6 L 400 6 L 420 18 L 1000 18' stroke='rgba(120,152,29,0.35)' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  /* Ensures the line sits ABOVE the next row's background */
+  z-index: calc(var(--i) + 3);
 }
 
 .proj-row-inner {
@@ -768,13 +785,28 @@ html, body {
   .stack-list { padding-bottom: 0; }
 
   .proj-row {
-    top: calc(48px + var(--i) * 10px);
+    /* Increased mobile offset from 10px to 20px */
+    top: calc(48px + var(--i) * 20px);
     padding: 20px 0 8px;
+  }
+
+  /* Mobile Step-Down Line Effect */
+  .proj-row::before {
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 16' preserveAspectRatio='none'%3E%3Cpath d='M 0 4 L 400 4 L 420 12 L 1000 12' stroke='rgba(120,152,29,0.35)' stroke-width='1' fill='none'/%3E%3C/svg%3E");
   }
 
   .proj-buttons {
     margin-top: 14px;
   }
+}
+
+/* ---------- Tech carousel ---------- */
+.tech-carousel {
+  margin-top: 20px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  width: 100%;
 }
 
 /* ---------- Tech carousel ---------- */
