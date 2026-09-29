@@ -23,7 +23,7 @@ const experiences = [
   {
     role: "AI Video Annotator",
     desc: "Performed video data annotation for AI and machine learning model training by conducting object tracking, activity labeling, and data validation while maintaining compliance with quality standards, resulting in a 100% QA accuracy score.",
-    meta: "AI / ML Data Annotation | 2025 – 2026",
+    meta: "Atlas Capture - AI / ML Data Annotation | 2025 – 2026",
   },
   {
     role: "Project Manager",
