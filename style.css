@@ -181,6 +181,9 @@ html, body {
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
+          mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
   opacity: 0;
@@ -339,6 +342,131 @@ html, body {
 .intro-col__text {
   margin-bottom: 28px;
   max-width: 260px;
+}
+
+/* Pixel cats — Kiki and Eyes Eyes play in the bottom corner (behavior in script.js) */
+
+.intro-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Same height as the Web Design demo, so the cats' feet line up with the logo box */
+.cat-play {
+  position: relative;
+  align-self: stretch;
+  margin-top: auto;
+  height: 140px;
+}
+
+.cat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  will-change: transform;
+}
+
+.cat__name {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  color: var(--bg-dark);
+  animation: catNameFloat 1.6s ease-in-out infinite;
+}
+
+.cat[data-cat="kiki"] .cat__name { background: var(--lime); }
+.cat[data-cat="eyes"] .cat__name { background: #ffb3c7; animation-delay: -0.8s; }
+
+.cat__body {
+  position: relative;
+  display: block;
+}
+
+.cat__sprite { display: block; }
+.cat.is-left .cat__sprite { transform: scaleX(-1); }
+
+/* Only the current pose is drawn */
+.cat__pose { display: none; }
+.cat[data-state="run"] .cat__pose--run,
+.cat[data-state="walk"] .cat__pose--run,
+.cat[data-state="crouch"] .cat__pose--run,
+.cat[data-state="pounce"] .cat__pose--run,
+.cat[data-state="sit"] .cat__pose--sit,
+.cat[data-state="loaf"] .cat__pose--loaf { display: inline; }
+
+/* Legs swap between two frames while moving */
+.cat__legs--a { animation: catFrame 0.24s steps(1) infinite; }
+.cat__legs--b { animation: catFrame 0.24s steps(1) infinite -0.12s; }
+.cat[data-state="walk"] .cat__legs--a { animation-duration: 0.5s; }
+.cat[data-state="walk"] .cat__legs--b { animation-duration: 0.5s; animation-delay: -0.25s; }
+.cat[data-state="pounce"] .cat__legs--a { animation: none; }
+.cat[data-state="pounce"] .cat__legs--b,
+.cat[data-state="crouch"] .cat__legs { display: none; }
+
+.cat[data-state="run"] .cat__body { animation: catBob 0.24s steps(1) infinite; }
+
+/* Low crouch with a butt wiggle before a pounce */
+.cat[data-state="crouch"] .cat__pose--run { transform: translateY(3px); }
+.cat[data-state="crouch"] .cat__body { animation: catWiggle 0.16s steps(1) infinite; }
+
+/* Tail swish while sitting */
+.cat__tail--a { animation: catFrame 0.9s steps(1) infinite; }
+.cat__tail--b { animation: catFrame 0.9s steps(1) infinite -0.45s; }
+
+/* Little "z" while napping */
+.cat[data-state="loaf"] .cat__body::after {
+  content: "z";
+  position: absolute;
+  right: -6px;
+  top: -4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  animation: catSnooze 1.8s ease-out infinite;
+}
+
+@keyframes catFrame {
+  0%  { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes catBob {
+  0%  { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes catWiggle {
+  0%  { transform: translateX(0); }
+  50% { transform: translateX(1px); }
+}
+
+@keyframes catNameFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+@keyframes catSnooze {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(6px, -12px); }
+}
+
+@media (max-width: 860px) {
+  .cat-play {
+    margin-top: 24px;
+    height: 72px;
+  }
 }
 
 
@@ -736,6 +864,9 @@ html, body {
   border-radius: inherit;
   padding: 2px;
   background: conic-gradient(
+    linear-gradient(#000 0 0);
+          mask:
+    linear-gradient(#000 0 0) content-box,
     from var(--angle),
     #ff0055,
     #ff8800,

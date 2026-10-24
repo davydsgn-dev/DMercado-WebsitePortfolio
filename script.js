@@ -330,3 +330,246 @@ document.querySelector('.btn[href="#intro"]').addEventListener('click', function
   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
+
+// ---------- Pixel cats (intro column) ----------
+const catPlay = document.getElementById("catPlay");
+
+if (catPlay) {
+  const CAT_W = 48; // sprite is 24 × 15 pixels drawn at 2px each
+
+  // Pixel art: W white fur, S belly shade, P pink, E blue eye, K pupil, C closed eye
+  const COLORS = { W: "#ffffff", S: "#e4e4ec", P: "#ffb3c7", E: "#4fa8ff", K: "#1b3d75", C: "#3a3a46" };
+
+  const art = (rows, cls = "", top = 0, left = 0) => {
+    let rects = "";
+    rows.forEach((row, y) => {
+      for (let x = 0; x < row.length; ) {
+        let w = 1;
+        while (row[x + w] === row[x]) w++;
+        if (COLORS[row[x]]) {
+          rects += `<rect x="${x + left}" y="${y + top}" width="${w}" height="1" fill="${COLORS[row[x]]}"/>`;
+        }
+        x += w;
+      }
+    });
+    return cls ? `<g class="${cls}">${rects}</g>` : rects;
+  };
+
+  const POSES = {
+    run: [
+      "...............W.....W..",
+      "..W............WP...PW..",
+      ".WW...........WWWWWWWWW.",
+      "WW...........WWWWWWWWWW.",
+      "WW...........WWWWWWWWWWW",
+      ".WW..........WWWWWWWWWWW",
+      "..WW..WWWWWWWWWWWWWWWWWP",
+      "...WWWWWWWWWWWWWWWWWWWW.",
+      "...WWWWWWWWWWWWWWWWWWW..",
+      "...WWWWWWWWWWWWWWW......",
+      "....WWWWWWWWWWWWWW......",
+      ".....WSSSSSSSSSW........",
+    ],
+    sit: [
+      "...............W.....W..",
+      "...............WP...PW..",
+      "..............WWWWWWWWW.",
+      ".............WWWWWWWWWW.",
+      ".............WWWWWWWWWWW",
+      ".............WWWWWWWWWWW",
+      ".........WWWWWWWWWWWWWWP",
+      "........WWWWWWWWWWWWWWW.",
+      ".......WWWWWWWWWWWWWWW..",
+      "......WWWWWWWWWWWWW.....",
+      "......WWWWWWWWWWWW......",
+      ".....WWWWWWWWWWWWW......",
+      ".....WWWWWWWWW.WW.......",
+      ".....WWWWWWWWW.WW.......",
+      "......SSSSSSSS.WWW......",
+    ],
+    loaf: [
+      "........................",
+      "........................",
+      "........................",
+      "........................",
+      "...............W.....W..",
+      "...............WP...PW..",
+      "..............WWWWWWWWW.",
+      "......WWWWWWWWWWWWWWWWW.",
+      "....WWWWWWWWWWWWWWWWWWW.",
+      "...WWWWWWWWWWWWWWWWWWWWW",
+      "..WWWWWWWWWWWWWWWWWWWWWP",
+      "..WWWWWWWWWWWWWWWWWWWWW.",
+      "..WWWWWWWWWWWWWWWWWWWW..",
+      "WW.WWWWWWWWWWWWWWWWW....",
+      ".WWSSSSSSSSSSSSSSWW.....",
+    ],
+  };
+
+  // Running legs: stretched out, then gathered under the body
+  const LEGS_A = [
+    "....WW........WW........",
+    "...WW..........WW.......",
+    "..WW............WW......",
+  ];
+  const LEGS_B = [
+    ".....WW.....WW..........",
+    ".....WW.....WW..........",
+    "......WW.....WW.........",
+  ];
+  // Sitting tail swish
+  const TAIL_A = [
+    "WW....",
+    ".WWWW.",
+  ];
+  const TAIL_B = [
+    "WW....",
+    ".W....",
+    "..WWW.",
+  ];
+
+  // Personalities: Eyes Eyes loves to pounce and chase, Kiki likes naps
+  const CATS = {
+    kiki: {
+      eyes:   { open: { top: 4, left: 19, rows: ["EE", "EK"] }, closed: { top: 9, left: 19, rows: ["CC"] } },
+      pounce: 0.3, chase: 0.35, sleepy: 0.35,
+    },
+    eyes: {
+      eyes:   { open: { top: 3, left: 17, rows: ["EE.EE", "EE.EE", "EK.EK"] }, closed: { top: 9, left: 17, rows: ["CC.CC"] } },
+      pounce: 0.65, chase: 0.7, sleepy: 0.1,
+    },
+  };
+
+  const sprite = (cfg) => {
+    const eye = (e) => art(e.rows, "", e.top, e.left);
+    const pose = (name, extra) => `<g class="cat__pose cat__pose--${name}">${art(POSES[name])}${extra}</g>`;
+    return `<span class="cat__body"><svg class="cat__sprite" viewBox="0 0 24 15" width="48" height="30" shape-rendering="crispEdges">` +
+      pose("run", eye(cfg.eyes.open) + art(LEGS_A, "cat__legs cat__legs--a", 12) + art(LEGS_B, "cat__legs cat__legs--b", 12)) +
+      pose("sit", eye(cfg.eyes.open) + art(TAIL_A, "cat__tail cat__tail--a", 13) + art(TAIL_B, "cat__tail cat__tail--b", 12)) +
+      pose("loaf", eye(cfg.eyes.closed)) +
+      `</svg></span>`;
+  };
+
+  let stageWidth = catPlay.clientWidth;
+  window.addEventListener("resize", () => { stageWidth = catPlay.clientWidth; });
+
+  const rand   = (a, b) => a + Math.random() * (b - a);
+  const maxX   = () => Math.max(0, stageWidth - CAT_W);
+  const clampX = (x) => Math.min(maxX(), Math.max(0, x));
+
+  const cats = [...catPlay.querySelectorAll(".cat")].map((el, i) => {
+    el.insertAdjacentHTML("beforeend", sprite(CATS[el.dataset.cat]));
+    return { el, cfg: CATS[el.dataset.cat], x: clampX(i * 180), y: 0, dir: i ? -1 : 1, state: "", timer: 0, target: 0, speed: 0, jump: null };
+  });
+  const partnerOf = (cat) => (cat === cats[0] ? cats[1] : cats[0]);
+
+  function setState(cat, state, timer = 0) {
+    cat.state = state;
+    cat.timer = timer;
+    cat.el.dataset.state = state;
+  }
+
+  function face(cat, other) {
+    cat.dir = other.x >= cat.x ? 1 : -1;
+  }
+
+  function moveTo(cat, x, state) {
+    cat.target = clampX(x);
+    cat.speed = state === "run" ? rand(110, 150) : rand(28, 40);
+    cat.dir = Math.sign(cat.target - cat.x) || cat.dir;
+    setState(cat, state);
+  }
+
+  // Got pounced on: zoom off to the far side
+  function startle(cat, from) {
+    const awayRight = cat.x >= from.x;
+    const roomAhead = awayRight ? maxX() - cat.x : cat.x;
+    const goRight = roomAhead > 80 ? awayRight : !awayRight;
+    moveTo(cat, goRight ? maxX() - rand(0, 30) : rand(0, 30), "run");
+  }
+
+  function decide(cat) {
+    const other = partnerOf(cat);
+    const dist = Math.abs(other.x - cat.x);
+    const otherResting = ["sit", "loaf", "walk"].includes(other.state);
+
+    if (otherResting && dist > 50 && dist < 220 && Math.random() < cat.cfg.pounce) {
+      face(cat, other);
+      setState(cat, "crouch", rand(0.6, 1.2));
+      return;
+    }
+    if (other.state === "run" && Math.random() < cat.cfg.chase) {
+      const side = Math.sign(other.target - cat.x) || 1;
+      moveTo(cat, other.target - side * 44, "run");
+      return;
+    }
+
+    const r = Math.random();
+    if (r < 0.3) {
+      moveTo(cat, rand(0, maxX()), "run");
+    } else if (r < 0.55) {
+      moveTo(cat, cat.x + rand(-140, 140), "walk");
+    } else if (r < 1 - cat.cfg.sleepy * 0.5) {
+      if (Math.random() < 0.6) face(cat, other);
+      setState(cat, "sit", rand(1.4, 3.2));
+    } else {
+      setState(cat, "loaf", rand(3, 5.5));
+    }
+  }
+
+  function update(cat, dt) {
+    const other = partnerOf(cat);
+
+    if (cat.state === "run" || cat.state === "walk") {
+      const step = cat.speed * dt;
+      if (Math.abs(cat.target - cat.x) <= step) {
+        cat.x = cat.target;
+        decide(cat);
+      } else {
+        cat.x += Math.sign(cat.target - cat.x) * step;
+      }
+    } else if (cat.state === "crouch") {
+      cat.timer -= dt;
+      if (cat.timer <= 0) {
+        const dist = Math.abs(other.x - cat.x);
+        if (dist > 30 && dist < 260) {
+          face(cat, other);
+          cat.jump = { from: cat.x, to: clampX(other.x - cat.dir * 14), t: 0, dur: 0.55, height: 24 };
+          setState(cat, "pounce");
+        } else {
+          decide(cat);
+        }
+      }
+    } else if (cat.state === "pounce") {
+      const j = cat.jump;
+      j.t += dt;
+      const p = Math.min(1, j.t / j.dur);
+      cat.x = j.from + (j.to - j.from) * p;
+      cat.y = 4 * j.height * p * (1 - p);
+      if (p >= 1) {
+        cat.y = 0;
+        if (Math.abs(other.x - cat.x) < 50 && other.state !== "pounce") startle(other, cat);
+        if (Math.random() < 0.5) setState(cat, "sit", rand(0.8, 1.6));
+        else decide(cat);
+      }
+    } else {
+      cat.timer -= dt;
+      if (cat.timer <= 0) decide(cat);
+    }
+
+    cat.el.style.transform = `translate(${cat.x}px, ${-cat.y}px)`;
+    cat.el.classList.toggle("is-left", cat.dir < 0);
+  }
+
+  setState(cats[0], "sit", 1.2);
+  setState(cats[1], "sit", 2);
+
+  let lastFrame = performance.now();
+  function tick(now) {
+    const dt = Math.min(0.05, (now - lastFrame) / 1000);
+    lastFrame = now;
+    cats.forEach((cat) => update(cat, dt));
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
