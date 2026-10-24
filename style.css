@@ -660,7 +660,8 @@ html, body {
   display: flex;
   align-items: center;
   gap: 8px;
-  animation: cursorHover 4s ease-in-out infinite;
+  will-change: transform;
+  animation: cursorHover 3.5s ease-in-out infinite;
 }
 
 .cursor-icon {
@@ -678,28 +679,16 @@ html, body {
   padding: 4px 10px;
   border-radius: 999px;
   white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-4px);
-  animation: tagAppear 4s ease-in-out infinite;
 }
 
-/* Cursor drifts down from the logo box, "hovers", then resets */
+/* Cursor and name tag stay visible, wandering around the logo box on a loop */
 @keyframes cursorHover {
-  0%   { top: 0;   left: 0;  opacity: 0; }
-  10%  { opacity: 1; }
-  35%  { top: 66px; left: 30px; }
-  75%  { top: 66px; left: 30px; }
-  90%  { opacity: 1; }
-  100% { top: 0;   left: 0;  opacity: 0; }
-}
-
-@keyframes tagAppear {
-  0%   { opacity: 0; transform: translateX(-4px); }
-  35%  { opacity: 0; transform: translateX(-4px); }
-  45%  { opacity: 1; transform: translateX(0); }
-  75%  { opacity: 1; transform: translateX(0); }
-  90%  { opacity: 0; transform: translateX(-4px); }
-  100% { opacity: 0; transform: translateX(-4px); }
+  0%   { transform: translate(48px, 38px); }
+  20%  { transform: translate(18px, 48px); }
+  40%  { transform: translate(28px, 20px); }
+  60%  { transform: translate(64px, 26px); }
+  80%  { transform: translate(56px, 50px); }
+  100% { transform: translate(48px, 38px); }
 }
 
 /* ---------- Responsive (hero + intro row) ---------- */
@@ -864,9 +853,6 @@ html, body {
   border-radius: inherit;
   padding: 2px;
   background: conic-gradient(
-    linear-gradient(#000 0 0);
-          mask:
-    linear-gradient(#000 0 0) content-box,
     from var(--angle),
     #ff0055,
     #ff8800,
@@ -877,6 +863,9 @@ html, body {
     #ff0055
   );
   -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+          mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
