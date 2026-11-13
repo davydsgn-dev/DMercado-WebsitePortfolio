@@ -3,7 +3,7 @@ const experiences = [
   {
     role: "UI/UX Designer",
     desc: "Led Flow Smart's design process as Lead Designer, defining the product's visual direction, building reusable UI components, and turning early ideas into web and mobile experiences. Standardized the team's design workflow, contributing to on-time releases and 99% overall user satisfaction.",
-    meta: "Flow Smart — Lead Designer | 2026 – Present",
+    meta: "Flow Smart — Lead Designer | 2026 – 2026",
   },
   {
     role: "UI/UX Designer",
