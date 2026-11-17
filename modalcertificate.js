@@ -12,6 +12,7 @@ const certifications = [
   { slug: "NETWORKING-ENSA",  title: "Cisco: Enterprise Networking, Security, and Automation" },
   { slug: "WADHWANI",         title: "Wadhwani: Employability Skills Job Ready" },
   { slug: "WOJT",             title: "Project Moonshot: OJT Certificate" },
+  { slug: "ASEAN",             title: "ASEAN: AI Career Readiness Training" },
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
