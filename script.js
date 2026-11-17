@@ -1,8 +1,8 @@
 // ---------- Experience carousel (middle column) ----------
 const experiences = [
   {
-    role: "UI/UX Designer",
-    desc: "Led the design process as Lead Designer at Flow Smart, a startup company in Davao, while developing its mobile app, defining theproduct’s visual direction, building reusable UI components, and turning early ideas into working web and mobile experiences.Standardized the team’s design workflow, contributing to on-time releases.",
+    role: "UI/UX Designer & Mobile Frontend Developer",
+    desc: "Led the design process as Lead Designer at Flow Smart, a startup company in Davao, while developing its mobile app, defining the product’s visual direction, building reusable UI components, and turning early ideas into working web and mobile experiences. Standardized the team’s design workflow, contributing to on-time releases.",
     meta: "Flow Smart — Lead Designer & Mobile Frontend Developer | 2026 – 2026",
   },
   {
